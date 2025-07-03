@@ -67,59 +67,55 @@ export function SignUpForm(): React.JSX.Element {
 	// 	async (values: Values): Promise<void> => {
 	// 		setIsPending(true);
 
-	// 		const { error } = await authClient.signUp(values);
+	// 		try {
+	// 			const response = await fetch(`${APIURL}/Users/register`, {
+	// 				method: "POST",
+	// 				headers: {
+	// 					"Content-Type": "application/json",
+	// 				},
+	// 				body: JSON.stringify({
+	// 					fullName: values.fullName,
+	// 					email: values.email,
+	// 					password: values.password,
+	// 					phoneNumber: values.phoneNumber,
+	// 					address: values.address,
+	// 					role: values.role,
+	// 				}),
+	// 			});
+	// 			const data = await response.json();
+	// 			if (!response.ok || !data.Status) {
+	// 				// in catch:
+	// 				showAlert("error", data.message || "Registration failed. Please try again.");
+	// 			}
 
-	// 		if (error) {
-	// 			setError("root", { type: "server", message: error });
+	// 			await showAlert("success", data.Message || "Registration successful!");
+
+	// 			// Refresh auth state if needed
+	// 			await checkSession?.();
+
+	// 			// Redirect to login or dashboard
+	// 			router.push(paths.auth.signIn);
+	// 		} catch (error: any) {
+	// 			console.error(error);
+	// 			setError("root", { type: "server", message: error.message });
+	// 		} finally {
 	// 			setIsPending(false);
-	// 			return;
 	// 		}
-
-	// 		// Refresh the auth state
-	// 		await checkSession?.();
-
-	// 		// UserProvider, for this case, will not refresh the router
-	// 		// After refresh, GuestGuard will handle the redirect
-	// 		router.refresh();
 	// 	},
 	// 	[checkSession, router, setError]
 	// );
 	const onSubmit = React.useCallback(
 		async (values: Values): Promise<void> => {
 			setIsPending(true);
-			//setError("root", ); // clear previous errors
-
 			try {
-				const response = await fetch(`${APIURL}/Users/register`, {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						fullName: values.fullName,
-						email: values.email,
-						password: values.password,
-						phoneNumber: values.phoneNumber,
-						address: values.address,
-						role: values.role,
-					}),
-				});
-				const data = await response.json();
-				if (!response.ok || !data.Status) {
-					// in catch:
-					showAlert("error", data.message || "Registration failed. Please try again.");
+				const { error } = await authClient.signUp(values);
+				if (error) {
+					setError("root", { type: "server", message: error });
+					return;
 				}
 
-				await showAlert("success", data.Message || "Registration successful!");
-
-				// Refresh auth state if needed
 				await checkSession?.();
-
-				// Redirect to login or dashboard
 				router.push(paths.auth.signIn);
-			} catch (error: any) {
-				console.error(error);
-				setError("root", { type: "server", message: error.message });
 			} finally {
 				setIsPending(false);
 			}
