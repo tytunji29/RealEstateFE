@@ -8,7 +8,10 @@ import { PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 import { UploadIcon } from '@phosphor-icons/react/dist/ssr/Upload';
 import dayjs from 'dayjs';
 
-import { config } from '@/config';
+import { readFileSync } from 'fs';
+
+const config = JSON.parse(readFileSync(new URL('./config.json', import.meta.url), 'utf-8'));
+
 import { CustomersFilters } from '@/components/dashboard/customer/customers-filters';
 import { CustomersTable } from '@/components/dashboard/customer/customers-table';
 import type { Customer } from '@/components/dashboard/customer/customers-table';

@@ -7,7 +7,10 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { ArrowLeftIcon } from '@phosphor-icons/react/dist/ssr/ArrowLeft';
 
-import { config } from '@/config';
+import { readFileSync } from 'fs';
+
+const config = JSON.parse(readFileSync(new URL('./config.json', import.meta.url), 'utf-8'));
+
 import { paths } from '@/paths';
 
 export const metadata = { title: `Not found | Errors | ${config.site.name}` } satisfies Metadata;

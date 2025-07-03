@@ -1,10 +1,10 @@
 export const APIURL = "https://temitayo01-001-site1.ktempurl.com/api";
 export const position = "bottom-center";
 export const vubids_user =
-  typeof window !== "undefined"
-    ? window.localStorage.getItem("vubids_token")
-    : false;
+  globalThis.window === undefined
+    ? false
+    : globalThis.localStorage.getItem("vubids_token");
 export const main_user =
-  typeof window !== "undefined"
-    ? window.localStorage.getItem("user_Type")
-    : false;
+  globalThis.window === undefined
+    ? false
+    : globalThis.localStorage.getItem("user_Type");

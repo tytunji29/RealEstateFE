@@ -11,7 +11,10 @@ import { PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 import { UploadIcon } from '@phosphor-icons/react/dist/ssr/Upload';
 import dayjs from 'dayjs';
 
-import { config } from '@/config';
+import { readFileSync } from 'fs';
+
+const config = JSON.parse(readFileSync(new URL('./config.json', import.meta.url), 'utf-8'));
+
 import { IntegrationCard } from '@/components/dashboard/integrations/integrations-card';
 import type { Integration } from '@/components/dashboard/integrations/integrations-card';
 import { CompaniesFilters } from '@/components/dashboard/integrations/integrations-filters';

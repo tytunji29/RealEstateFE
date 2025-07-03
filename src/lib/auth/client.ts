@@ -1,6 +1,6 @@
 "use client";
 
-import { showAlert } from "@/util/showAlert";
+import { showAlert } from "@/util/show-alert";
 
 import type { User } from "@/types/user";
 import { APIURL } from "@/contexts/action";

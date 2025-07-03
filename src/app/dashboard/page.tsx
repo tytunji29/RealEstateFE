@@ -3,7 +3,10 @@ import type { Metadata } from 'next';
 import Grid from '@mui/material/Grid';
 import dayjs from 'dayjs';
 
-import { config } from '@/config';
+import { readFileSync } from 'fs';
+
+const config = JSON.parse(readFileSync(new URL('./config.json', import.meta.url), 'utf-8'));
+
 import { Budget } from '@/components/dashboard/overview/budget';
 import { LatestOrders } from '@/components/dashboard/overview/latest-orders';
 import { LatestProducts } from '@/components/dashboard/overview/latest-products';

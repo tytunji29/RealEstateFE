@@ -4,7 +4,10 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { config } from '@/config';
+import { readFileSync } from 'fs';
+
+const config = JSON.parse(readFileSync(new URL('./config.json', import.meta.url), 'utf-8'));
+
 import { AccountDetailsForm } from '@/components/dashboard/account/account-details-form';
 import { AccountInfo } from '@/components/dashboard/account/account-info';
 

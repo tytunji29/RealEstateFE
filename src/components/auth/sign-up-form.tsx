@@ -3,7 +3,7 @@
 import * as React from "react";
 import RouterLink from "next/link";
 import { useRouter } from "next/navigation";
-import { showAlert } from "@/util/showAlert";
+import { showAlert } from "@/util/show-alert";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
