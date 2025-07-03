@@ -7,11 +7,11 @@ import { APIURL } from "@/contexts/action";
 
 import { saveLoginSession } from "./session";
 
-function generateToken(): string {
-	const arr = new Uint8Array(12);
-	globalThis.crypto.getRandomValues(arr);
-	return Array.from(arr, (v) => v.toString(16).padStart(2, "0")).join("");
-}
+// function generateToken(): string {
+// 	const arr = new Uint8Array(12);
+// 	globalThis.crypto.getRandomValues(arr);
+// 	return Array.from(arr, (v) => v.toString(16).padStart(2, "0")).join("");
+// }
 
 const user = {
 	id: "USR-000",
@@ -93,7 +93,7 @@ class AuthClient {
 	}
 
 	async signInWithPassword(params: SignInWithPasswordParams): Promise<{ error?: string }> {
-		const { email, password } = params;
+		//const { email, password } = params;
 		try {
 			const response = await fetch(`${APIURL}/Users/login`, {
 				method: "POST",

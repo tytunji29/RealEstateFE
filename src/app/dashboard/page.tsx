@@ -3,9 +3,9 @@ import type { Metadata } from 'next';
 import Grid from '@mui/material/Grid';
 import dayjs from 'dayjs';
 
-import { readFileSync } from 'fs';
+import { readFileSync } from 'node:fs';
 
-const config = JSON.parse(readFileSync(new URL('./config.json', import.meta.url), 'utf-8'));
+const config = JSON.parse(readFileSync(new URL('config.json', import.meta.url), 'utf-8'));
 
 import { Budget } from '@/components/dashboard/overview/budget';
 import { LatestOrders } from '@/components/dashboard/overview/latest-orders';
