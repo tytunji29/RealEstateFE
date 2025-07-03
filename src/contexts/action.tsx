@@ -11,4 +11,3 @@ export const main_user =
   typeof window !== "undefined"
     ? window.localStorage.getItem("user_Type")
     : false;
-
