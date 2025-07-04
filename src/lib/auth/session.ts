@@ -6,6 +6,8 @@ export function saveLoginSession(data: any) {
   sessionStorage.setItem('role', data.role);
   sessionStorage.setItem('email', data.email);
 }
+
+
 export function getLoginSession() {
   const buildingType = sessionStorage.getItem('buildingType');
   const landType = sessionStorage.getItem('landType');

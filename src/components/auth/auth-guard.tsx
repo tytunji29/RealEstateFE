@@ -36,14 +36,24 @@ export function AuthGuard({ children }: AuthGuardProps): React.JSX.Element | nul
     setIsChecking(false);
   };
 
-  React.useEffect(() => {
-    checkPermissions().catch(() => {
-      // noop
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
-  }, [user, error, isLoading]);
+React.useEffect(() => {
+  if (!isLoading) {
+    if (error) {
+      setIsChecking(false);
+      return;
+    }
+    if (!user) {
+      logger.debug('[AuthGuard]: User is not logged in, redirecting to sign in');
+      router.replace(paths.auth.signIn);
+    } else {
+      setIsChecking(false);
+    }
+  }
+}, [user, error, isLoading, router]);
 
   if (isChecking) {
+  /////"IT IS ENTERING HERE"
+  console.log({ isLoading, user, error, isChecking });
     return null;
   }
 

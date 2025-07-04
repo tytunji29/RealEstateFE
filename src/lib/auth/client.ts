@@ -5,7 +5,7 @@ import { showAlert } from "@/util/show-alert";
 import type { User } from "@/types/user";
 import { APIURL } from "@/contexts/action";
 
-import { saveLoginSession } from "./session";
+import { getLoginSession, saveLoginSession } from "./session";
 
 // function generateToken(): string {
 // 	const arr = new Uint8Array(12);
@@ -105,10 +105,10 @@ class AuthClient {
 			});
 
 			const data = await response.json();
-      if (!response.ok || !data.status) {
-        await showAlert("error", data.Message || "Login failed. Please try again.");
-        return { error: data.Message || "Login failed. Please try again." };
-      }
+			if (!response.ok || !data.status) {
+				await showAlert("error", data.Message || "Login failed. Please try again.");
+				return { error: data.Message || "Login failed. Please try again." };
+			}
 			if (!data.status) {
 				await showAlert("error", data.Message || "Login failed. Please try again.");
 				return { error: data.Message || "Login failed. Please try again." };
@@ -135,9 +135,9 @@ class AuthClient {
 
 	async getUser(): Promise<{ data?: User | null; error?: string }> {
 		// Make API request
-
+		const all = getLoginSession();
 		// We do not handle the API, so just check if we have a token in localStorage.
-		const token = localStorage.getItem("custom-auth-token");
+		const token = all.token;
 
 		if (!token) {
 			return { data: null };
@@ -147,10 +147,25 @@ class AuthClient {
 	}
 
 	async signOut(): Promise<{ error?: string }> {
+		// Remove custom auth token from localStorage
 		localStorage.removeItem("custom-auth-token");
 
+		// Remove all related sessionStorage items
+		sessionStorage.removeItem("buildingType");
+		sessionStorage.removeItem("landType");
+		sessionStorage.removeItem("propertyTypes");
+		sessionStorage.removeItem("token");
+		sessionStorage.removeItem("role");
+		sessionStorage.removeItem("email");
+		sessionStorage.clear();
+		setState({ user: null, error: null, isLoading: false });
 		return {};
+		
 	}
 }
 
 export const authClient = new AuthClient();
+function setState(arg0: { user: null; error: null; isLoading: boolean; }) {
+	throw new Error("Function not implemented.");
+}
+

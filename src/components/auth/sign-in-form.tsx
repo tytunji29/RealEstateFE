@@ -20,6 +20,7 @@ import { z as zod } from "zod";
 
 import { paths } from "@/paths";
 import { authClient } from "@/lib/auth/client";
+import { getLoginSession } from "@/lib/auth/session";
 import { useUser } from "@/hooks/use-user";
 
 const schema = zod.object({
@@ -28,16 +29,12 @@ const schema = zod.object({
 });
 
 type Values = zod.infer<typeof schema>;
-
 const defaultValues = { email: "", password: "" } satisfies Values;
 
 export function SignInForm(): React.JSX.Element {
 	const router = useRouter();
-
 	const { checkSession } = useUser();
-
 	const [showPassword, setShowPassword] = React.useState<boolean>();
-
 	const [isPending, setIsPending] = React.useState<boolean>(false);
 
 	const {
@@ -47,22 +44,68 @@ export function SignInForm(): React.JSX.Element {
 		formState: { errors },
 	} = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
+	// const onSubmit = React.useCallback(
+	// 	async (values: Values): Promise<void> => {
+	// 		setIsPending(true);
+	// 		console.log(values);
+	// 		const { error } = await authClient.signInWithPassword(values);
+
+	// 		if (error) {
+	// 			console.log("i reach here");
+	// 			setError("root", { type: "server", message: error });
+	// 			setIsPending(false);
+	// 			return;
+	// 		}
+
+	// 		// Refresh the auth state
+	// 		await checkSession?.();
+	// 		setIsPending(false);
+
+	// 		const all = getLoginSession();
+	// 		if(all.role !== "agent") {
+	// 		router.replace(paths.marketplace.landing);}
+	// 		else {
+	// 			router.replace(paths.dashboard.overview);
+	// 		}
+	// 	},
+	// 	[checkSession, router, setError]
+	// );
 	const onSubmit = React.useCallback(
 		async (values: Values): Promise<void> => {
 			setIsPending(true);
-			console.log(values);
-			const { error } = await authClient.signInWithPassword(values);
+			try {
+				console.log("Submitting values:", values);
 
-			if (error) {
-        console.log("i reach here");
-				setError("root", { type: "server", message: error });
+				const { error } = await authClient.signInWithPassword(values);
+
+				if (error) {
+					console.log("Sign-in error:", error);
+					setError("root", { type: "server", message: error });
+					return;
+				}
+
+				await checkSession?.();
+				
+
+				const session = getLoginSession();
+				console.log("Session after login:", session);
+				if (!session) {
+					console.error("No session returned after login.");
+					setError("root", { type: "server", message: "Session retrieval failed. Please try again." });
+					return;
+				}
+
+				if (session.role?.toLocaleLowerCase() !== "admin") {
+					router.replace(paths.marketplace.landing);
+				} else {
+					router.replace(paths.dashboard.overview);
+				}
+			} catch (err) {
+				console.error("Unexpected error during login:", err);
+				setError("root", { type: "server", message: "An unexpected error occurred. Please try again." });
+			} finally {
 				setIsPending(false);
-				return;
 			}
-
-			// Refresh the auth state
-			await checkSession?.();
-			router.push(paths.dashboard.overview);
 		},
 		[checkSession, router, setError]
 	);
@@ -139,12 +182,9 @@ export function SignInForm(): React.JSX.Element {
 			<Alert color="warning">
 				Use{" "}
 				<Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
-					sofia@devias.io
+					email
 				</Typography>{" "}
-				with password{" "}
-				<Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
-					Secret1
-				</Typography>
+				and password <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit"></Typography>
 			</Alert>
 		</Stack>
 	);
