@@ -95,13 +95,13 @@ export function SignInForm(): React.JSX.Element {
 					return;
 				}
 
-				if (session.role?.toLocaleLowerCase() !== "admin") {
-					router.replace(paths.marketplace.landing);
-				} else {
+				if (session.role?.toLocaleLowerCase() === "admin") {
 					router.replace(paths.dashboard.overview);
+				} else {
+					router.replace(paths.marketplace.landing);
 				}
-			} catch (err) {
-				console.error("Unexpected error during login:", err);
+			} catch (error) {
+				console.error("Unexpected error during login:", error);
 				setError("root", { type: "server", message: "An unexpected error occurred. Please try again." });
 			} finally {
 				setIsPending(false);

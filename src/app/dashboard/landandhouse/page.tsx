@@ -6,7 +6,7 @@ import Checkbox from "@mui/material/Checkbox";
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Grid, { GridProps } from "@mui/material/Grid";
+import Grid from "@mui/material/Grid";
 import Slider from "@mui/material/Slider";
 import Typography from "@mui/material/Typography";
 
@@ -19,6 +19,8 @@ interface House {
 	price: number;
 	location: string;
 	type: "Apartment" | "Bungalow" | "Duplex";
+	remainingimages: number;
+	images: string[];
 }
 
 // Sample data
@@ -27,38 +29,54 @@ const allHouses: House[] = [
 		id: 1,
 		title: "Modern Duplex",
 		image: "/images/house1.jpg",
-		price: 500000,
+		price: 500_000,
 		location: "Lekki, Lagos",
 		type: "Duplex",
+		remainingimages: 3,
+		images: [
+			"https://res.cloudinary.com/doghtjqip/image/upload/v1751628590/AgentsDoc/a-timeless-concrete-built-smart-duplexpayment-plan-qVsWXNbcXGF7A4yLDK1p_tfb0e9.jpg"
+		]
 	},
 	{
 		id: 2,
 		title: "Luxury Apartment",
 		image: "https://res.cloudinary.com/doghtjqip/image/upload/v1751613080/AgentsDoc/dariann-court-YsedfGnWjRaHABx86uqD_utmvlx.jpg",
-		price: 350000,
+		price: 350_000,
 		location: "Ikoyi, Lagos",
 		type: "Apartment",
+		remainingimages: 3,
+		images: [
+			"https://res.cloudinary.com/doghtjqip/image/upload/v1751628590/AgentsDoc/a-timeless-concrete-built-smart-duplexpayment-plan-qVsWXNbcXGF7A4yLDK1p_tfb0e9.jpg"
+		]
 	},
 	{
 		id: 3,
 		title: "Cozy Bungalow",
 		image: "https://res.cloudinary.com/doghtjqip/image/upload/v1751613152/AgentsDoc/0684a5088b214f-luxury-5-bedroom-fully-detached-duplex-with-bq-in-osapa-detached-duplexes-for-sale-osapa-lekki-lagos_ewoocb.jpg",
-		price: 200000,
+		price: 200_000,
 		location: "Magodo, Lagos",
 		type: "Bungalow",
+		remainingimages: 3,
+		images: [
+			"https://res.cloudinary.com/doghtjqip/image/upload/v1751628590/AgentsDoc/a-timeless-concrete-built-smart-duplexpayment-plan-qVsWXNbcXGF7A4yLDK1p_tfb0e9.jpg"
+		]
 	},
 	{
 		id: 4,
 		title: "Penthouse Suite",
 		image: "https://res.cloudinary.com/doghtjqip/image/upload/v1751613152/AgentsDoc/q7QaW-tastefully-finished-3-bedroom-penthouse-apartment-PgLr4C65qg4OegpDZMVc_eojvwf.jpg",
-		price: 800000,
+		price: 800_000,
 		location: "Victoria Island, Lagos",
 		type: "Apartment",
+		remainingimages: 3,
+		images: [
+			"https://res.cloudinary.com/doghtjqip/image/upload/v1751628590/AgentsDoc/a-timeless-concrete-built-smart-duplexpayment-plan-qVsWXNbcXGF7A4yLDK1p_tfb0e9.jpg"
+		]
 	},
 ];
 
 export default function LandAndHousePage() {
-	const [priceRange, setPriceRange] = useState<number[]>([0, 1000000]);
+	const [priceRange, setPriceRange] = useState<number[]>([0, 1_000_000]);
 	const [apartmentChecked, setApartmentChecked] = useState(true);
 	const [bungalowChecked, setBungalowChecked] = useState(true);
 	const [duplexChecked, setDuplexChecked] = useState(true);
@@ -98,8 +116,8 @@ export default function LandAndHousePage() {
 					onChange={handlePriceChange}
 					valueLabelDisplay="auto"
 					min={0}
-					max={1000000}
-					step={50000}
+					max={1_000_000}
+					step={50_000}
 				/>
 				<Divider sx={{ my: 2 }} />
 

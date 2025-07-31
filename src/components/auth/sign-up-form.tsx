@@ -3,7 +3,6 @@
 import * as React from "react";
 import RouterLink from "next/link";
 import { useRouter } from "next/navigation";
-import { showAlert } from "@/util/show-alert";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
@@ -23,14 +22,12 @@ import { z as zod } from "zod";
 
 import { paths } from "@/paths";
 import { authClient } from "@/lib/auth/client";
-import { APIURL } from "@/contexts/action";
 import { useUser } from "@/hooks/use-user";
 
 const schema = zod.object({
 	fullName: zod.string().min(1, { message: "First name is required" }),
 	phoneNumber: zod.string().min(1, { message: "PhoneNumber is required" }),
 	address: zod.string().min(1, { message: "Address is required" }),
-	role: zod.string().min(1, { message: "Role is required" }),
 	email: zod.string().min(1, { message: "Email is required" }).email(),
 	password: zod.string().min(6, { message: "Password should be at least 6 characters" }),
 	terms: zod.boolean().refine((value) => value, "You must accept the terms and conditions"),
@@ -44,7 +41,6 @@ const defaultValues = {
 	email: "",
 	password: "",
 	address: "",
-	role: "",
 	terms: false,
 } satisfies Values;
 
@@ -215,17 +211,7 @@ export function SignUpForm(): React.JSX.Element {
 							</FormControl>
 						)}
 					/>
-					<Controller
-						control={control}
-						name="role"
-						render={({ field }) => (
-							<FormControl error={Boolean(errors.role)}>
-								<InputLabel>Role</InputLabel>
-								<OutlinedInput {...field} label="Last name" />
-								{errors.role ? <FormHelperText>{errors.role.message}</FormHelperText> : null}
-							</FormControl>
-						)}
-					/>
+					
 
 					<Controller
 						control={control}

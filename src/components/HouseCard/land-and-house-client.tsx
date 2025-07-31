@@ -29,97 +29,129 @@ interface House {
   location: string;
   type: string;
   remainingimages:number;
+    images: string[]; 
 }
 
 
-const allHouses: House[] = [
+const allHouses: House[] = 
+[
   {
     id: 1,
     title: "Modern Duplex",
     image:   "https://res.cloudinary.com/doghtjqip/image/upload/v1751628590/AgentsDoc/a-timeless-concrete-built-smart-duplexpayment-plan-qVsWXNbcXGF7A4yLDK1p_tfb0e9.jpg",
-    price: 500000,
+    price: 500_001,
     location: "Lekki, Lagos",
     type: "Duplex",
-    remainingimages: 3,
+    remainingimages: 1,
+      images: [
+      "https://res.cloudinary.com/doghtjqip/image/upload/v1751628590/AgentsDoc/a-timeless-concrete-built-smart-duplexpayment-plan-qVsWXNbcXGF7A4yLDK1p_tfb0e9.jpg"
+    ]
   },
   {
     id: 2,
     title: "Luxury Apartment",
     image:
       "https://res.cloudinary.com/doghtjqip/image/upload/v1751613080/AgentsDoc/dariann-court-YsedfGnWjRaHABx86uqD_utmvlx.jpg",
-    price: 350000,
+    price: 350_000,
     location: "Ikoyi, Lagos",
     type: "Apartment",
-    remainingimages: 5,
+    remainingimages: 1,
+      images: [
+      "https://res.cloudinary.com/doghtjqip/image/upload/v1751628590/AgentsDoc/a-timeless-concrete-built-smart-duplexpayment-plan-qVsWXNbcXGF7A4yLDK1p_tfb0e9.jpg"
+    ],
   },
   {
     id: 3,
     title: "Cozy Bungalow",
     image:
       "https://res.cloudinary.com/doghtjqip/image/upload/v1751613152/AgentsDoc/0684a5088b214f-luxury-5-bedroom-fully-detached-duplex-with-bq-in-osapa-detached-duplexes-for-sale-osapa-lekki-lagos_ewoocb.jpg",
-    price: 200000,
+    price: 200_000,
     location: "Magodo, Lagos",
     type: "Bungalow",
-    remainingimages: 2,
+    remainingimages: 1,
+      images: [
+      "https://res.cloudinary.com/doghtjqip/image/upload/v1751628590/AgentsDoc/a-timeless-concrete-built-smart-duplexpayment-plan-qVsWXNbcXGF7A4yLDK1p_tfb0e9.jpg"
+    ],
   },
   {
     id: 4,
     title: "Penthouse Suite",
     image:
       "https://res.cloudinary.com/doghtjqip/image/upload/v1751613152/AgentsDoc/q7QaW-tastefully-finished-3-bedroom-penthouse-apartment-PgLr4C65qg4OegpDZMVc_eojvwf.jpg",
-    price: 800000,
+    price: 800_000,
     location: "Victoria Island, Lagos",
     type: "Apartment",
-    remainingimages: 4,
+    remainingimages: 1,
+      images: [
+      "https://res.cloudinary.com/doghtjqip/image/upload/v1751628590/AgentsDoc/a-timeless-concrete-built-smart-duplexpayment-plan-qVsWXNbcXGF7A4yLDK1p_tfb0e9.jpg"
+    ],
   },
    {
     id: 5,
     title: "Modern Duplex",
     image: "https://res.cloudinary.com/doghtjqip/image/upload/v1751628590/AgentsDoc/q7QaW-tastefully-finished-3-bedroom-penthouse-apartment-PgLr4C65qg4OegpDZMVc_fzcvm4.jpg",
-    price: 500000,
+    price: 500_000,
     location: "Lekki, Lagos",
     type: "Duplex",
-    remainingimages: 3,
+    remainingimages: 1,
+      images: [
+      "https://res.cloudinary.com/doghtjqip/image/upload/v1751628590/AgentsDoc/a-timeless-concrete-built-smart-duplexpayment-plan-qVsWXNbcXGF7A4yLDK1p_tfb0e9.jpg"
+    ],
   },
   {
     id: 6,
     title: "Luxury Apartment",
     image:
       "https://res.cloudinary.com/doghtjqip/image/upload/v1751628591/AgentsDoc/beautiful-luxury-4-bedroom-semi-detached-duplex-with-bq-ncU7jBxJy3hyKxmq9jQi_pdizvo.jpg",
-    price: 430000,
+    price: 430_000,
     location: "Ojota, Lagos",
     type: "Apartment",
-    remainingimages: 5,
+    remainingimages: 1,
+      images: [
+      "https://res.cloudinary.com/doghtjqip/image/upload/v1751628590/AgentsDoc/a-timeless-concrete-built-smart-duplexpayment-plan-qVsWXNbcXGF7A4yLDK1p_tfb0e9.jpg"
+    ],
   },
   {
     id: 7,
     title: "Cozy Bungalow",
     image:
       "https://res.cloudinary.com/doghtjqip/image/upload/v1751628591/AgentsDoc/5bed-detached-bq-2hYbdPkUwfeJMtwxiCdO_qvfb60.jpg",
-    price: 900000,
+    price: 900_000,
     location: "Berger, Lagos",
     type: "Bungalow",
-    remainingimages: 2,
+    remainingimages: 1,
+      images: [
+      "https://res.cloudinary.com/doghtjqip/image/upload/v1751628590/AgentsDoc/a-timeless-concrete-built-smart-duplexpayment-plan-qVsWXNbcXGF7A4yLDK1p_tfb0e9.jpg"
+    ],
   },
   {
     id: 8,
     title: "Penthouse Suite",
     image:
       "https://res.cloudinary.com/doghtjqip/image/upload/v1751628590/AgentsDoc/dariann-court-YsedfGnWjRaHABx86uqD_qj3wb9.jpg",
-    price: 600000,
+    price: 600_000,
     location: "Abraham Adesanya, Lagos",
     type: "Apartment",
-    remainingimages: 4,
+    remainingimages: 1,
+      images: [
+      "https://res.cloudinary.com/doghtjqip/image/upload/v1751628590/AgentsDoc/a-timeless-concrete-built-smart-duplexpayment-plan-qVsWXNbcXGF7A4yLDK1p_tfb0e9.jpg"
+    ],
   },
   {
     id: 9,
     title: "Penthouse Suite",
     image:
       "https://res.cloudinary.com/doghtjqip/image/upload/v1751628590/AgentsDoc/a-timeless-concrete-built-smart-duplexpayment-plan-qVsWXNbcXGF7A4yLDK1p_tfb0e9.jpg",
-    price: 1800000,
+    price: 1_800_000,
     location: "Ajah, Lagos",
     type: "Apartment",
-    remainingimages: 4,
+    remainingimages: 3,
+    images: [
+      "https://res.cloudinary.com/doghtjqip/image/upload/v1751914461/AgentsDoc/5bed-detached-bq-2hYbdPkUwfeJMtwxiCdO_uprfn4.jpg",
+      "https://res.cloudinary.com/doghtjqip/image/upload/v1751914462/AgentsDoc/beautiful-luxury-4-bedroom-semi-detached-duplex-with-bq-ncU7jBxJy3hyKxmq9jQi_vwr7kw.jpg",
+    "https://res.cloudinary.com/doghtjqip/image/upload/v1751914460/AgentsDoc/decent-4bed-terracebq-2KLz6xGfVB4O2DPQgBiF_ipurqz.jpg",
+      
+    ],
   },
 ];
 
@@ -205,7 +237,7 @@ export default function LandAndHousePage({
           valueLabelDisplay="auto"
           min={minPrice}
           max={maxPrice}
-          step={50000}
+          step={50_000}
         />
 
         <Divider sx={{ my: 2 }} />

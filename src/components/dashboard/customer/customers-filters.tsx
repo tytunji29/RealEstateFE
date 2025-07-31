@@ -1,23 +1,26 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import InputAdornment from '@mui/material/InputAdornment';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import { MagnifyingGlassIcon } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass';
+'use client';
+import { TextField } from '@mui/material';
+import { useState } from 'react';
 
-export function CustomersFilters(): React.JSX.Element {
+interface CustomersFiltersProps {
+  onSearch: (query: string) => void;
+}
+
+export function CustomersFilters({ onSearch }: CustomersFiltersProps) {
+  const [input, setInput] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
+    onSearch(e.target.value);
+  };
+
   return (
-    <Card sx={{ p: 2 }}>
-      <OutlinedInput
-        defaultValue=""
-        fullWidth
-        placeholder="Search customer"
-        startAdornment={
-          <InputAdornment position="start">
-            <MagnifyingGlassIcon fontSize="var(--icon-fontSize-md)" />
-          </InputAdornment>
-        }
-        sx={{ maxWidth: '500px' }}
-      />
-    </Card>
+    <TextField
+      fullWidth
+      label="Search customers"
+      value={input}
+      onChange={handleChange}
+      variant="outlined"
+    />
   );
 }

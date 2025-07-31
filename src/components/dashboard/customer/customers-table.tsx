@@ -1,131 +1,148 @@
 'use client';
-
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Checkbox from '@mui/material/Checkbox';
-import Divider from '@mui/material/Divider';
-import Stack from '@mui/material/Stack';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
-import dayjs from 'dayjs';
-
-import { useSelection } from '@/hooks/use-selection';
-
-function noop(): void {
-  // do nothing
-}
-
-export interface Customer {
-  id: string;
-  avatar: string;
-  name: string;
-  email: string;
-  address: { city: string; state: string; country: string; street: string };
-  phone: string;
-  createdAt: Date;
-}
+import {
+  Table, TableBody, TableCell, TableHead, TableRow,
+  TablePagination, Paper, CircularProgress, Avatar,
+  IconButton, Menu, MenuItem
+} from '@mui/material';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { APIURL } from "@/contexts/action";
+import { Customer } from '@/app/dashboard/customers/page';
+import { useState } from 'react';
+import axios from 'axios';
 
 interface CustomersTableProps {
-  count?: number;
-  page?: number;
-  rows?: Customer[];
-  rowsPerPage?: number;
+  count: number;
+  page: number;
+  rows: Customer[];
+  rowsPerPage: number;
+  loading?: boolean;
+  onPageChange: (event: unknown, newPage: number) => void;
+  onRowsPerPageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function CustomersTable({
-  count = 0,
-  rows = [],
-  page = 0,
-  rowsPerPage = 0,
-}: CustomersTableProps): React.JSX.Element {
-  const rowIds = React.useMemo(() => {
-    return rows.map((customer) => customer.id);
-  }, [rows]);
+  count,
+  page,
+  rows,
+  rowsPerPage,
+  loading,
+  onPageChange,
+  onRowsPerPageChange
+}: CustomersTableProps) {
 
-  const { selectAll, deselectAll, selectOne, deselectOne, selected } = useSelection(rowIds);
+  const [anchorEls, setAnchorEls] = useState<{ [key: string]: HTMLElement | null }>({});
 
-  const selectedSome = (selected?.size ?? 0) > 0 && (selected?.size ?? 0) < rows.length;
-  const selectedAll = rows.length > 0 && selected?.size === rows.length;
+const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, userId: string) => {
+  setAnchorEls((prev) => ({ ...prev, [userId]: event.currentTarget }));
+};
 
+const handleMenuClose = (userId: string) => {
+  setAnchorEls((prev) => ({ ...prev, [userId]: null }));
+};
+
+const handleAction = async (userId: string, action: string) => {
+  handleMenuClose(userId);
+
+  try {
+    let newapprovalStatus = '';
+    switch (action) {
+      case 'Admin':
+        newapprovalStatus = 'admin';
+        break
+      case 'Deactivate':
+        newapprovalStatus = 'rejected';
+        break;
+      case 'Reactivate':
+        newapprovalStatus = 'active';
+        break;
+      default:
+        return;
+    }
+const endpoint = `${APIURL}/Users/changeuserstatus`;
+    var data = {
+      id: userId,
+      approvalStatus: newapprovalStatus
+    };
+    const response = await axios.post(endpoint, data);
+    console.log('User updated:', response.data);
+
+    // Optional: Refresh list
+    // You might want to trigger a re-fetch or update local state here
+  } catch (err) {
+    console.error(`Failed to perform action: ${action}`, err);
+  }
+};
+
+  
   return (
-    <Card>
-      <Box sx={{ overflowX: 'auto' }}>
-        <Table sx={{ minWidth: '800px' }}>
-          <TableHead>
-            <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox
-                  checked={selectedAll}
-                  indeterminate={selectedSome}
-                  onChange={(event) => {
-                    if (event.target.checked) {
-                      selectAll();
-                    } else {
-                      deselectAll();
-                    }
-                  }}
-                />
-              </TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Location</TableCell>
-              <TableCell>Phone</TableCell>
-              <TableCell>Signed Up</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => {
-              const isSelected = selected?.has(row.id);
+    <Paper>
+      {loading ? (
+        <div style={{ padding: '2rem', textAlign: 'center' }}>
+          <CircularProgress />
+        </div>
+      ) : (
+        <>
+          <Table>
+            <TableHead>
+              <TableRow>
+                {/* <TableCell>Avatar</TableCell> */}
+                <TableCell>Name</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Phone</TableCell>
+                <TableCell>Address</TableCell>
+                <TableCell>Created</TableCell>
+                <TableCell>Actions</TableCell>
 
-              return (
-                <TableRow hover key={row.id} selected={isSelected}>
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={isSelected}
-                      onChange={(event) => {
-                        if (event.target.checked) {
-                          selectOne(row.id);
-                        } else {
-                          deselectOne(row.id);
-                        }
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}>
-                      <Avatar src={row.avatar} />
-                      <Typography variant="subtitle2">{row.name}</Typography>
-                    </Stack>
-                  </TableCell>
-                  <TableCell>{row.email}</TableCell>
-                  <TableCell>
-                    {row.address.city}, {row.address.state}, {row.address.country}
-                  </TableCell>
-                  <TableCell>{row.phone}</TableCell>
-                  <TableCell>{dayjs(row.createdAt).format('MMM D, YYYY')}</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((customer) => (
+                <TableRow key={customer.id}>
+                  {/* <TableCell>
+                    <Avatar src={customer.avatar} alt={customer.name} />
+                  </TableCell> */}
+                  <TableCell>{customer.name}</TableCell>
+                  <TableCell>{customer.email}</TableCell>
+                  <TableCell>{customer.phone}</TableCell>
+                  <TableCell>{customer.address.street}</TableCell>
+                  <TableCell>{new Date(customer.createdAt).toDateString()}</TableCell>
+<TableCell>
+  <IconButton
+    aria-label="more"
+    aria-controls={`menu-${customer.id}`}
+    aria-haspopup="true"
+    onClick={(event) => handleMenuOpen(event, customer.id)}
+  >
+    <MoreVertIcon />
+  </IconButton>
+  <Menu
+    id={`menu-${customer.id}`}
+    anchorEl={anchorEls[customer.id] || null}
+    open={Boolean(anchorEls[customer.id])}
+    onClose={() => handleMenuClose(customer.id)}
+  >
+    <MenuItem onClick={() => handleAction(customer.id, 'Admin')}>Change Role to Admin</MenuItem>
+    <MenuItem onClick={() => handleAction(customer.id, 'Deactivate')}>Deactivate User</MenuItem>
+    <MenuItem onClick={() => handleAction(customer.id, 'Reactivate')}>Reactivate User</MenuItem>
+  </Menu>
+</TableCell>
+
                 </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </Box>
-      <Divider />
-      <TablePagination
-        component="div"
-        count={count}
-        onPageChange={noop}
-        onRowsPerPageChange={noop}
-        page={page}
-        rowsPerPage={rowsPerPage}
-        rowsPerPageOptions={[5, 10, 25]}
-      />
-    </Card>
+              ))}
+            </TableBody>
+          </Table>
+
+          <TablePagination
+            component="div"
+            count={count}
+            page={page}
+            onPageChange={onPageChange}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={onRowsPerPageChange}
+            rowsPerPageOptions={[5, 10, 25]}
+          />
+        </>
+      )}
+    </Paper>
   );
 }

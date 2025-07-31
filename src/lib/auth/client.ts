@@ -26,7 +26,6 @@ export interface SignUpParams {
 	phoneNumber: string;
 	email: string;
 	password: string;
-	role: string;
 	address: string;
 }
 
@@ -64,7 +63,6 @@ class AuthClient {
 					password: values.password,
 					phoneNumber: values.phoneNumber,
 					address: values.address,
-					role: values.role,
 				}),
 			});
 
@@ -158,14 +156,14 @@ class AuthClient {
 		sessionStorage.removeItem("role");
 		sessionStorage.removeItem("email");
 		sessionStorage.clear();
-		setState({ user: null, error: null, isLoading: false });
+		//setState({ user: null, error: null, isLoading: false });
 		return {};
 		
 	}
 }
 
 export const authClient = new AuthClient();
-function setState(arg0: { user: null; error: null; isLoading: boolean; }) {
-	throw new Error("Function not implemented.");
-}
+// function setState(arg0: { user: null; error: null; isLoading: boolean; }) {
+// 	throw new Error("Function not implemented.");
+// }
 

@@ -17,24 +17,24 @@ export function AuthGuard({ children }: AuthGuardProps): React.JSX.Element | nul
   const { user, error, isLoading } = useUser();
   const [isChecking, setIsChecking] = React.useState<boolean>(true);
 
-  const checkPermissions = async (): Promise<void> => {
-    if (isLoading) {
-      return;
-    }
+  // const checkPermissions = async (): Promise<void> => {
+  //   if (isLoading) {
+  //     return;
+  //   }
 
-    if (error) {
-      setIsChecking(false);
-      return;
-    }
+  //   if (error) {
+  //     setIsChecking(false);
+  //     return;
+  //   }
 
-    if (!user) {
-      logger.debug('[AuthGuard]: User is not logged in, redirecting to sign in');
-      router.replace(paths.auth.signIn);
-      return;
-    }
+  //   if (!user) {
+  //     logger.debug('[AuthGuard]: User is not logged in, redirecting to sign in');
+  //     router.replace(paths.auth.signIn);
+  //     return;
+  //   }
 
-    setIsChecking(false);
-  };
+  //   setIsChecking(false);
+  // };
 
 React.useEffect(() => {
   if (!isLoading) {
@@ -42,11 +42,11 @@ React.useEffect(() => {
       setIsChecking(false);
       return;
     }
-    if (!user) {
+    if (user) {
+      setIsChecking(false);
+    } else {
       logger.debug('[AuthGuard]: User is not logged in, redirecting to sign in');
       router.replace(paths.auth.signIn);
-    } else {
-      setIsChecking(false);
     }
   }
 }, [user, error, isLoading, router]);

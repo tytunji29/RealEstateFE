@@ -1,4 +1,5 @@
 "use client";
+import React from 'react';
 
 import LandAndHousePage from "@/components/HouseCard/land-and-house-client";
 import { getLoginSession } from "@/lib/auth/session";
