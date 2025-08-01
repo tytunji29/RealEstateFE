@@ -65,15 +65,15 @@ class AuthClient {
 					address: values.address,
 				}),
 			});
-
+			console.log("SignUp response:", response);
 			const data = await response.json();
-
-			if (!response.ok || !data.Status) {
-				await showAlert("error", data.Message || "Registration failed. Please try again.");
-				return { error: data.Message || "Registration failed. Please try again." };
+			console.log("SignUp data:", data);
+			if (!response.ok || !data.status) {
+				await showAlert("error", data.message || "Registration failed. Please try again.");
+				return { error: data.message || "Registration failed. Please try again." };
 			}
 
-			await showAlert("success", data.Message || "Registration successful!");
+			await showAlert("success", data.message || "Registration successful!");
 
 			// If you want to store a fake token for now:
 			// const token = generateToken();
@@ -104,7 +104,7 @@ class AuthClient {
 
 			const data = await response.json();
 			if (!response.ok || !data.status) {
-				await showAlert("error", data.Message || "Login failed. Please try again.");
+				await showAlert("error", data.Message || data.message);
 				return { error: data.Message || "Login failed. Please try again." };
 			}
 			if (!data.status) {
@@ -156,14 +156,18 @@ class AuthClient {
 		sessionStorage.removeItem("role");
 		sessionStorage.removeItem("email");
 		sessionStorage.clear();
-		//setState({ user: null, error: null, isLoading: false });
+		setState({ user: null, error: null, isLoading: false });
+
+		window.location.href = "auth/sign-in"; // Or "/auth/login" or whatever your route is
 		return {};
-		
 	}
 }
 
 export const authClient = new AuthClient();
+
+function setState(arg0: { user: null; error: null; isLoading: boolean }) {
+	throw new Error("Function not implemented.");
+}
 // function setState(arg0: { user: null; error: null; isLoading: boolean; }) {
 // 	throw new Error("Function not implemented.");
 // }
-

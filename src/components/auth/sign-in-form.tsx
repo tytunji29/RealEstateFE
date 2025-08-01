@@ -98,6 +98,7 @@ export function SignInForm(): React.JSX.Element {
 				if (session.role?.toLocaleLowerCase() === "admin") {
 					router.replace(paths.dashboard.overview);
 				} else {
+					
 					router.replace(paths.marketplace.landing);
 				}
 			} catch (error) {

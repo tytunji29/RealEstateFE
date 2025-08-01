@@ -6,7 +6,7 @@ export const paths = {
     account: '/dashboard/account',
     marketplace: '/dashboard/landandhouse',
     customers: '/dashboard/customers',
-    integrations: '/dashboard/integrations',
+    pendingrequests: '/dashboard/pendingrequests',
     settings: '/dashboard/settings',
   },
   marketplace:{landing:'/marketplace/landandhouse'},

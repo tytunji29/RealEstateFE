@@ -8,6 +8,7 @@ export function useUser(): UserContextValue {
 
   if (!context) {
     throw new Error('useUser must be used within a UserProvider');
+    
   }
 
   return context;

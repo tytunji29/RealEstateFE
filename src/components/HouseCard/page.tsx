@@ -19,19 +19,22 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
 interface House {
-  id: number;
+  id: string;
   title: string;
   image: string;
   images: string[];
   price: number;
   location: string;
   type: string;
+	propertyType: string;
+	landType: string;
+	buildingType: string;
   remainingimages: number;
 }
 
 export default function HouseCard({ house }: { house: House }) {
   const [open, setOpen] = useState(false);
-
+console.log("HouseCard rendered with house:", house); // Debugging line
   return (
     <>
       <Card>

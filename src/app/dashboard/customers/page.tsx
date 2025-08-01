@@ -1,6 +1,6 @@
 'use client';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
@@ -9,10 +9,8 @@ import { DownloadIcon } from '@phosphor-icons/react/dist/ssr/Download';
 import { PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 import { UploadIcon } from '@phosphor-icons/react/dist/ssr/Upload';
 
-import { config } from '@/config';
 import { CustomersFilters } from '@/components/dashboard/customer/customers-filters';
 import { CustomersTable } from '@/components/dashboard/customer/customers-table';
-
 import { APIURL } from "@/contexts/action";
 
 export interface Customer {
@@ -21,6 +19,8 @@ export interface Customer {
   email: string;
   phone: string;
   avatar: string;
+  status: string;
+  role: string;
   address: { street: string };
   createdAt: string;
 }
@@ -33,41 +33,45 @@ export default function CustomersPage() {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchQuery, setSearchQuery] = useState('');
 
-  useEffect(() => {
-    const fetchCustomers = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(`${APIURL}/Users/AllCustomerUsers`, {
-          params: {
-            pgNo: page + 1,
-            pgSize: rowsPerPage,
-            search: searchQuery,
-          },
-        });
-console.log('Response data:', response.data);
-        if (response.data?.status && Array.isArray(response.data.data.users)) {
-          const mapped: Customer[] = response.data.data.users.map((item: any) => ({
-            id: item.id,
-            name: item.fullName,
-            email: item.email,
-            phone: item.phoneNumber,
-            avatar: '/assets/default-avatar.png',
-            address: { street: item.address },
-            createdAt: item.createdDate ? new Date(item.createdDate) : new Date(),
-          }));
+  // ✅ Move fetchCustomers outside useEffect and wrap with useCallback
+  const fetchCustomers = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${APIURL}/Users/AllCustomerUsers`, {
+        params: {
+          pgNo: page + 1,
+          pgSize: rowsPerPage,
+          search: searchQuery,
+        },
+      });
 
-          setCustomers(mapped);
-          setTotalCount(response.data.data.totalCount || mapped.length);
-        }
-      } catch (error) {
-        console.error('Failed to fetch customers:', error);
-      } finally {
-        setLoading(false);
+
+      if (response.data?.status && Array.isArray(response.data.data.users)) {
+        const mapped: Customer[] = response.data.data.users.map((item: any) => ({
+          id: item.id,
+          name: item.fullName,
+          email: item.email,
+          phone: item.phoneNumber,
+          status: item.status,
+          role: item.userRole,
+          avatar: '/assets/default-avatar.png',
+          address: { street: item.address },
+          createdAt: item.createdDate ? new Date(item.createdDate) : new Date(),
+        }));
+
+        setCustomers(mapped);
+        setTotalCount(response.data.data.totalRecords || mapped.length);
       }
-    };
-
-    fetchCustomers();
+    } catch (error) {
+      console.error('Failed to fetch customers:', error);
+    } finally {
+      setLoading(false);
+    }
   }, [page, rowsPerPage, searchQuery]);
+
+  useEffect(() => {
+    fetchCustomers();
+  }, [fetchCustomers]);
 
   return (
     <Stack spacing={3}>
@@ -108,6 +112,7 @@ console.log('Response data:', response.data);
           setRowsPerPage(parseInt(event.target.value, 10));
           setPage(0);
         }}
+        onRefresh={fetchCustomers} // ✅ Now works!
       />
     </Stack>
   );
