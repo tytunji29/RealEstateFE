@@ -74,12 +74,10 @@ export function SignInForm(): React.JSX.Element {
 		async (values: Values): Promise<void> => {
 			setIsPending(true);
 			try {
-				console.log("Submitting values:", values);
 
 				const { error } = await authClient.signInWithPassword(values);
 
 				if (error) {
-					console.log("Sign-in error:", error);
 					setError("root", { type: "server", message: error });
 					return;
 				}
@@ -88,7 +86,6 @@ export function SignInForm(): React.JSX.Element {
 				
 
 				const session = getLoginSession();
-				console.log("Session after login:", session);
 				if (!session) {
 					console.error("No session returned after login.");
 					setError("root", { type: "server", message: "Session retrieval failed. Please try again." });

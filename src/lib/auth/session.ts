@@ -5,6 +5,7 @@ export function saveLoginSession(data: any) {
   sessionStorage.setItem('token', data.token);
   sessionStorage.setItem('role', data.role);
   sessionStorage.setItem('email', data.email);
+  sessionStorage.setItem('isFirstPoster', data.isFirstPoster);
 }
 
 
@@ -15,6 +16,7 @@ export function getLoginSession() {
   const token = sessionStorage.getItem('token');
   const role = sessionStorage.getItem('role');
   const email = sessionStorage.getItem('email');
+  const isFirstPoster = sessionStorage.getItem('isFirstPoster');
 
   return {
     buildingType: buildingType ? JSON.parse(buildingType) : null,
@@ -22,6 +24,7 @@ export function getLoginSession() {
     propertyTypes: propertyTypes ? JSON.parse(propertyTypes) : null,
     token,
     role,
-    email
+    email,
+    isFirstPoster
   };
 }

@@ -40,6 +40,7 @@ export function UserPopover({ anchorEl, onClose, open }: UserPopoverProps): Reac
 			}
 
 			router.replace(paths.auth.signIn);
+			window.location.reload();
 			// After refresh, AuthGuard will handle the redirect
 		} catch (error) {
 			logger.error("Sign out error", error);

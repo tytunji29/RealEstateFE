@@ -1,5 +1,6 @@
 "use client";
 
+import { showAlert } from "@/util/show-alert";
 import { useState } from "react";
 import { Customer } from "@/app/dashboard/customers/page";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -29,7 +30,7 @@ interface CustomersTableProps {
 	loading?: boolean;
 	onPageChange: (event: unknown, newPage: number) => void;
 	onRowsPerPageChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-   onRefresh: () => void; // ✅ New prop
+	onRefresh: () => void; // ✅ New prop
 }
 
 export function CustomersTable({
@@ -40,8 +41,8 @@ export function CustomersTable({
 	loading,
 	onPageChange,
 	onRowsPerPageChange,
-  
-  onRefresh, // ✅ Destructure it
+
+	onRefresh, // ✅ Destructure it
 }: CustomersTableProps) {
 	const [anchorEls, setAnchorEls] = useState<{ [key: string]: HTMLElement | null }>({});
 
@@ -53,44 +54,43 @@ export function CustomersTable({
 		setAnchorEls((prev) => ({ ...prev, [userId]: null }));
 	};
 
-const handleAction = async (userId: string, action: string) => {
-  handleMenuClose(userId);
+	const handleAction = async (userId: string, action: string) => {
+		handleMenuClose(userId);
 
-  try {
-    let newapprovalStatus = "";
-    switch (action) {
-      case "Admin":
-        newapprovalStatus = "admin";
-        break;
-      case "Deactivate":
-        newapprovalStatus = "rejected";
-        break;
-      case "Reactivate":
-        newapprovalStatus = "active";
-        break;
-      default:
-        return;
-    }
+		try {
+			let newapprovalStatus = "";
+			switch (action) {
+				case "Admin":
+					newapprovalStatus = "admin";
+					break;
+				case "Deactivate":
+					newapprovalStatus = "rejected";
+					break;
+				case "Reactivate":
+					newapprovalStatus = "active";
+					break;
+				default:
+					return;
+			}
 
-    const endpoint = `${APIURL}/Users/changeuserstatus`;
-    const data = {
-      id: userId,
-      approvalStatus: newapprovalStatus,
-    };
+			const endpoint = `${APIURL}/Users/changeuserstatus`;
+			const data = {
+				id: userId,
+				approvalStatus: newapprovalStatus,
+			};
 
-    const response = await axios.post(endpoint, data);
+			const response = await axios.post(endpoint, data);
 
-    // ✅ Alert message
-    alert(response.data?.message || "User updated successfully");
+			// ✅ Alert message
+await showAlert("success", response.data?.message || "User updated successfully");
 
-    // ✅ Trigger refresh
-    onRefresh();
-
-  } catch (err) {
-    console.error(`Failed to perform action: ${action}`, err);
-    alert("Failed to update user.");
-  }
-};
+			// ✅ Trigger refresh
+			onRefresh();
+		} catch (err) {
+			console.error(`Failed to perform action: ${action}`, err);
+			alert("Failed to update user.");
+		}
+	};
 
 	return (
 		<Paper>
@@ -143,8 +143,11 @@ const handleAction = async (userId: string, action: string) => {
 											onClose={() => handleMenuClose(customer.id)}
 										>
 											<MenuItem onClick={() => handleAction(customer.id, "Admin")}>Change Role to Admin</MenuItem>
-											<MenuItem onClick={() => handleAction(customer.id, "Deactivate")}>Deactivate User</MenuItem>
-											<MenuItem onClick={() => handleAction(customer.id, "Reactivate")}>Reactivate User</MenuItem>
+											{customer.status === "Active" ? (
+												<MenuItem onClick={() => handleAction(customer.id, "Deactivate")}>Deactivate User</MenuItem>
+											) : (
+												<MenuItem onClick={() => handleAction(customer.id, "Reactivate")}>Reactivate User</MenuItem>
+											)}
 										</Menu>
 									</TableCell>
 								</TableRow>

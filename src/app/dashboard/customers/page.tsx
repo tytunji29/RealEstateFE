@@ -87,11 +87,11 @@ export default function CustomersPage() {
             </Button>
           </Stack>
         </Stack>
-        <div>
+        {/* <div>
           <Button startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />} variant="contained">
             Add
           </Button>
-        </div>
+        </div> */}
       </Stack>
 
       <CustomersFilters

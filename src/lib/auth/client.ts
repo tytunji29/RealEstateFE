@@ -65,9 +65,7 @@ class AuthClient {
 					address: values.address,
 				}),
 			});
-			console.log("SignUp response:", response);
 			const data = await response.json();
-			console.log("SignUp data:", data);
 			if (!response.ok || !data.status) {
 				await showAlert("error", data.message || "Registration failed. Please try again.");
 				return { error: data.message || "Registration failed. Please try again." };
