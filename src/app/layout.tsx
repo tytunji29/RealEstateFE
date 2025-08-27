@@ -2,8 +2,8 @@ import "@/styles/global.css";
 import { Providers } from "@/app/providers";
 
 export const metadata = {
-  title: "My App",
-  description: "Next.js application with providers setup",
+  title: "Pinancle Real Estate",
+  description: "Pinancle Real Estate",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

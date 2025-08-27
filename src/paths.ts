@@ -4,7 +4,7 @@ export const paths = {
   dashboard: {
     overview: '/dashboard',
     account: '/dashboard/account',
-    marketplace: '/dashboard/landandhouse',
+    //marketplace: '/dashboard/landandhouse',
     customers: '/dashboard/customers',
     pendingrequests: '/dashboard/pendingrequests',
     settings: '/dashboard/settings',
