@@ -66,6 +66,7 @@ class AuthClient {
 				}),
 			});
 			const data = await response.json();
+			console.log(data);
 			if (!response.ok || !data.status) {
 				await showAlert("error", data.message || "Registration failed. Please try again.");
 				return { error: data.message || "Registration failed. Please try again." };

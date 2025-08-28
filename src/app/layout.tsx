@@ -2,8 +2,8 @@ import "@/styles/global.css";
 import { Providers } from "@/app/providers";
 
 export const metadata = {
-  title: "Pinancle Real Estate",
-  description: "Pinancle Real Estate",
+  title: "OWNERS DOOR MOT",
+  description: "OWNERS DOOR MOT - Real Estate Management System",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
