@@ -70,7 +70,7 @@ export function SideNav(): React.JSX.Element {
               
             </Typography>
             <Typography color="inherit" variant="subtitle1">
-              Direct Home
+              OWNERS DOOR MOT
             </Typography>
           </Box>
           <CaretUpDownIcon />

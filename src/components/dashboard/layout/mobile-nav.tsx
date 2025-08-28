@@ -75,7 +75,7 @@ export function MobileNav({ open, onClose }: MobileNavProps): React.JSX.Element 
               
             </Typography>
             <Typography color="inherit" variant="subtitle1">
-              Direct Home
+              OWNERS DOOR MOT
             </Typography>
           </Box>
           <CaretUpDownIcon />
