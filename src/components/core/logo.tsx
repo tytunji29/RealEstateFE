@@ -6,8 +6,8 @@ import { useColorScheme } from '@mui/material/styles';
 
 import { NoSsr } from '@/components/core/no-ssr';
 
-const HEIGHT = 60;
-const WIDTH = 60;
+const DEFAULT_HEIGHT = 200;
+const DEFAULT_WIDTH = 200;
 
 type Color = 'dark' | 'light';
 
@@ -18,7 +18,12 @@ export interface LogoProps {
   width?: number;
 }
 
-export function Logo({ color = 'dark', emblem, height = HEIGHT, width = WIDTH }: LogoProps): React.JSX.Element {
+export function Logo({
+  color = 'dark',
+  emblem,
+  height = DEFAULT_HEIGHT,
+  width = DEFAULT_WIDTH,
+}: LogoProps): React.JSX.Element {
   let url: string;
 
   if (emblem) {
@@ -27,7 +32,25 @@ export function Logo({ color = 'dark', emblem, height = HEIGHT, width = WIDTH }:
     url = color === 'light' ? '/newLogo.jpg' : '/newLogo.jpg';
   }
 
-  return <Box alt="logo" component="img" height={height} src={url} width={width} />;
+  // fallback default image
+  if (!url) {
+    url = '/defaultLogo.jpg';
+  }
+
+  return (
+    <Box
+      component="img"
+      alt="logo"
+      src={url}
+      sx={{
+        height,
+        width,
+        maxWidth: '100%',
+        maxHeight: '100%',
+        objectFit: 'contain',
+      }}
+    />
+  );
 }
 
 export interface DynamicLogoProps {
@@ -41,8 +64,8 @@ export interface DynamicLogoProps {
 export function DynamicLogo({
   colorDark = 'light',
   colorLight = 'dark',
-  height = HEIGHT,
-  width = WIDTH,
+  height = DEFAULT_HEIGHT,
+  width = DEFAULT_WIDTH,
   ...props
 }: DynamicLogoProps): React.JSX.Element {
   const { colorScheme } = useColorScheme();
