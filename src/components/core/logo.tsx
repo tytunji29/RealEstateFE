@@ -27,9 +27,9 @@ export function Logo({
   let url: string;
 
   if (emblem) {
-    url = color === 'dark' ? '/newLogo.jpg' : '/newLogo.jpg';
+    url = color === 'dark' ? '/newLogo.jpeg' : '/newLogo.jpeg';
   } else {
-    url = color === 'light' ? '/newLogo.jpg' : '/newLogo.jpg';
+    url = color === 'light' ? '/newLogo.jpeg' : '/newLogo.jpeg';
   }
 
   // fallback default image
