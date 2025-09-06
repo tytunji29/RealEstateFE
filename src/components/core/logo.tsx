@@ -27,9 +27,9 @@ export function Logo({
   let url: string;
 
   if (emblem) {
-    url = color === 'dark' ? '/Flyerwiz_1754082546253.jpeg' : '/Flyerwiz_1754082546253.jpeg';
+    url = color === 'dark' ? '/Flyerwiz_1754082546253.png' : '/Flyerwiz_1754082546253.png';
   } else {
-    url = color === 'light' ? '/Flyerwiz_1754082546253.jpeg' : '/Flyerwiz_1754082546253.jpeg';
+    url = color === 'light' ? '/Flyerwiz_1754082546253.png' : '/Flyerwiz_1754082546253.png';
   }
 
   // fallback default image
