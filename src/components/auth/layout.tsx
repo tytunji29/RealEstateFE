@@ -57,8 +57,8 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
 						<Box
 							component="img"
 							alt="Widgets"
-							//src="/assets/auth-widgets.png"
-							src="/assets/newLogo.jpeg"
+							src="/assets/auth-widgets.png"
+							//src="/assets/Flyerwiz_1754082546253.jpeg"
 							sx={{ height: "auto", width: "100%", maxWidth: "600px" }}
 						/>
 					</Box>
